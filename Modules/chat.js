@@ -11,41 +11,40 @@ module.exports = {
 // addUserToGroup
 //=========================================================
 function addUserToGroup(groupName, username){
-    // check that there is no such group in the system at all
-    // (Inside the array kept in groups.js called 'groupObjectList')
+    // check if such group exists
+    // (Inside 'groups.js' 'groupObjectList' array)
     var groupObject = groupFuncs.doesGroupExist(groupName);
-    if (groupObject!=null) {
-        // check that there is no such user in the system at all
-        // (Inside the array kept in users.js called 'userObjectList')
-        var userObject = userFuncs.doesUserExist(username);
-        if (userObject!=null) {
-            var res = doesUserExistInGroupsUsersDisplayTree(username);
-            // If user is not is group users
-            if (!res) { // user is not is group users
-                groupFuncs.addUserToGroup(groupName, userObject);
-                return true;
-            }
+    if (groupObject ===null) {
+        return false;
+    }
+
+    // check if such user exists
+    // (Inside 'users.js' 'userObjectList' array)
+    var userObject = userFuncs.doesUserExist(username);
+    if (userObject===null) {
+        return false;
+    }
+
+    // Check if user is already a child of that group
+    var listOfUsersInGroup = groupObject.getUsers();
+    for (var i=0; i < listOfUsersInGroup.length; i++) {
+        if (listOfUsersInGroup[i].getName() === username) {
+            return false;
+        }
+    }
+
+    return addUserToGroupUtil(groupName, userObject);
+ }
+//=========================================================
+function addUserToGroupUtil(groupName, userObject) {
+    var groupObjectList = groupFuncs.getGroupObjectList();
+    for (var i=0; i<groupObjectList.length; i++) {
+        if (groupObjectList[i].getName() === groupName) {
+            groupObjectList[i].addUser(userObject);
+            return true;
         }
     }
     return false;
-}
-//=========================================================
-// doesUserExistInGroupsUsersDisplayTree
-//=========================================================
-function doesUserExistInGroupsUsersDisplayTree(input) {
-    var listOfGroupAndUsers = createGroupsUsersDisplayTree();
-
-    for (var groupName in listOfGroupAndUsers) {
-
-        var listOfUsernamesAndAges = listOfGroupAndUsers[groupName];
-
-        for (var username in listOfUsernamesAndAges) {
-            if (username === input) {
-                return true;
-            }
-        }
-        return false;
-    }
 }
 //=========================================================
 // removeUserFromGroup
@@ -56,14 +55,26 @@ function removeUserFromGroup(groupName, username){
     if (groupObject===null) {
         return false;
     }
+
     var userObject = userFuncs.doesUserExist(username);
     if (userObject===null) {
         return false;
     }
-    groupFuncs.removeUserFromGroup(groupName, userObject);
-    return true;
-}
 
+    return removeUserFromGroupUtil(groupName, userObject);
+}
+//=========================================================
+function removeUserFromGroupUtil(groupName, userObject) {
+    var groupObjectList = groupFuncs.getGroupObjectList();
+    for (var i = 0; i < groupObjectList.length; i++) {
+        if (groupObjectList[i].getName() === groupName) {
+            var username = userObject.getName();
+            groupObjectList[i].removeUser(username);
+            return true;
+        }
+    }
+    return false;
+}
 //=========================================================
 // createGroupsUsersDisplayTree
 //=========================================================

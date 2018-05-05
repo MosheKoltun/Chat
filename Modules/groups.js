@@ -4,14 +4,16 @@ const Group = require('./group.js');
 var groupObjectList = [];
 //========================================================
 module.exports = {
+    getGroupObjectList:getGroupObjectList,
     createNewGroup:createNewGroup,
     getListOfGroupNames:getListOfGroupNames,
     doesGroupExist:doesGroupExist,
     removeGroup:removeGroup,
-    addUserToGroup:addUserToGroup,
-    removeUserFromGroup,removeUserFromGroup,
-    getGroupObjectList,getGroupObjectList,
 };
+//=========================================================
+function getGroupObjectList() {
+    return groupObjectList;
+}
 //========================================================
 function createNewGroup(GroupName) {
     var newGroup = new Group(GroupName);
@@ -53,29 +55,4 @@ function removeGroup(groupName) {
         }
     }
     return false;
-}
-//=========================================================
-function addUserToGroup(groupName, userObject) {
-    for (var i=0; i<groupObjectList.length; i++) {
-        if (groupObjectList[i].getName() === groupName) {
-            groupObjectList[i].addUser(userObject);
-            return true;
-        }
-    }
-    return false;
-}
-//=========================================================
-function removeUserFromGroup(groupName, userObject) {
-    for (var i = 0; i < groupObjectList.length; i++) {
-        if (groupObjectList[i].getName() === groupName) {
-            var username = userObject.getName();
-            groupObjectList[i].removeUser(username);
-            return true;
-        }
-    }
-    return false;
-}
-//=========================================================
-function getGroupObjectList() {
-    return groupObjectList;
 }
