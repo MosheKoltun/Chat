@@ -10,8 +10,12 @@ module.exports = {
     removeUser:removeUser,
     updateUsername:updateUsername,
     updateUserAge:updateUserAge,
-    getUserObjectList,getUserObjectList,
+    getUserObjectList:getUserObjectList,
 };
+//=========================================================
+function getUserObjectList() {
+    return userObjectList;
+}
 //========================================================
 function createNewUser(username, password, age) {
     var newUser = new User(username, password, age);
@@ -73,10 +77,6 @@ function updateUserAge(username, newUserAge) {
         }
     }
     return false;
-}
-//=========================================================
-function getUserObjectList() {
-    return userObjectList;
 }
 
 

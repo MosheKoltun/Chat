@@ -9,8 +9,8 @@ module.exports = {
     doesGroupExist:doesGroupExist,
     removeGroup:removeGroup,
     addUserToGroup:addUserToGroup,
-    removeUserFromGroup,removeUserFromGroup,
-    getGroupObjectList,getGroupObjectList,
+    removeUserFromGroup:removeUserFromGroup,
+    getGroupObjectList:getGroupObjectList,
 };
 //========================================================
 function createNewGroup(GroupName) {
@@ -36,10 +36,12 @@ function doesGroupExist(GroupName) {
 //=========================================================
 function getListOfGroupNames() {
     var groupsList = [];
-    if (groupObjectList.length > 0) {
-        for (var i = 0; i < groupObjectList.length; i++) {
-            groupsList.push(groupObjectList[i].getName());
-        }
+
+    if (groupObjectList.length === 0) {
+        return null;
+    }
+    for (var i = 0; i < groupObjectList.length; i++) {
+        groupsList.push(groupObjectList[i].getName());
     }
     return groupsList;
 }

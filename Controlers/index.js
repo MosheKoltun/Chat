@@ -374,7 +374,7 @@ function removeUserFromGroup() {
 function printGroupsUsersDisplayTree() {
     console.clear();
 
-    var listOfGroupAndUsers=chatFuncs.createGroupsUsersDisplayTree();
+    var listOfGroupAndUsers=chatFuncs.getListOfGroupAndUsers();
 
     for(var groupName in listOfGroupAndUsers) {
         console.log("--> " + groupName);
